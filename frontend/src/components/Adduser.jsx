@@ -14,7 +14,7 @@ const Adduser = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5001/adduser', {
+      const response = await fetch('https://backend-api.onrender.com/adduser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
