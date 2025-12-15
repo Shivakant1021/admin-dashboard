@@ -7,36 +7,26 @@ const Adduser = () => {
   const [password, setPassword] = useState('')
   const [users, setUsers] = useState([])
 
-  const addUser = async () => {
+  const addUser = () => {
     if (!name || !email || !password) {
       alert("All fields are required")
       return
     }
 
-    try {
-      const response = await fetch('https://backend-api.onrender.com/adduser', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        alert('Failed to add user')
-        return
+    // ✅ FRONTEND ONLY
+    setUsers(prevUsers => [
+      ...prevUsers,
+      {
+        id: Date.now(),
+        name,
+        email
       }
+    ])
 
-      setUsers([...users, { id: Date.now(), name, email }])
-      setName('')
-      setEmail('')
-      setPassword('')
-      alert('User added successfully 🚀')
-
-    } catch (error) {
-      console.error(error)
-      alert('Server error')
-    }
+    setName('')
+    setEmail('')
+    setPassword('')
+    alert('User added successfully 🚀')
   }
 
   return (
@@ -85,9 +75,11 @@ const Adduser = () => {
         <section className="card">
           <h3>Added Users</h3>
 
-          {users.length === 0 && <p className="empty">No users added</p>}
+          {users.length === 0 && (
+            <p className="empty">No users added</p>
+          )}
 
-          {users.map((user) => (
+          {users.map(user => (
             <div className="user-card" key={user.id}>
               <h4>{user.name}</h4>
               <p>{user.email}</p>
